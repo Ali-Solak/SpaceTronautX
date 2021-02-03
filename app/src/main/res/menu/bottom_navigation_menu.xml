@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+
+        android:id="@+id/latestLaunch"
+        android:icon="@drawable/ic_rocket"
+        android:title="Latest"
+        />
+
+    <item
+        android:id="@+id/upcomingLaunches"
+        android:icon="@drawable/ic_sketch"
+        android:iconTint="@color/peach"
+        android:title="Upcoming"
+        />
+
+    <item
+        android:id="@+id/pastLaunches"
+        android:icon="@drawable/ic_past"
+        android:iconTint="@color/peach"
+        android:title="Past"
+        />
+
+</menu>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/latestLaunch"
+    app:itemBackground="@color/black"
+    >
+
+    <fragment
+        android:id="@+id/latestLaunch"
+        android:name="android.ali.space.ui.fragments.LatestLaunch"
+        android:label="fragment_latest_launch"
+        tools:layout="@layout/fragment_latest_launch" >
+        <action
+            android:id="@+id/action_latestLaunch_to_rocket"
+            app:destination="@id/rocket"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/rocket"
+        android:name="android.ali.space.ui.fragments.Rocket"
+        android:label="RocketFragment">
+        <argument
+            android:name="rocketNumber"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_rocket_to_latestLaunch"
+            app:destination="@id/latestLaunch"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/pastLaunches"
+        android:name="android.ali.space.ui.fragments.PastLaunches"
+        android:label="fragment_past_launches"
+        tools:layout="@layout/fragment_past_launches" >
+        <action
+            android:id="@+id/action_pastLaunches_to_latestLaunch"
+            app:destination="@id/latestLaunch"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pastLaunches_to_pastLaunch"
+            app:destination="@id/plaunch"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/upcomingLaunches"
+        android:name="android.ali.space.ui.fragments.UpcomingLaunches"
+        android:label="fragment_upcoming_launches"
+        tools:layout="@layout/fragment_upcoming_launches" >
+        <action
+            android:id="@+id/action_upcomingLaunches_to_upcomingLaunch2"
+            app:destination="@id/upcomingLaunch" />
+        <action
+            android:id="@+id/action_upcomingLaunches_to_latestLaunch"
+            app:destination="@id/latestLaunch"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/upcomingLaunch"
+        android:name="android.ali.space.ui.fragments.UpcomingLaunch"
+        android:label="UpcomingLaunch" >
+        <argument
+            android:name="upcomingLaunchData"
+            app:argType="android.ali.space.database.ModelsLocal.UpcomingLaunches.UpcomingLaunch"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_upcomingLaunch_to_rocket"
+            app:destination="@id/rocket"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/plaunch"
+        android:name="android.ali.space.ui.fragments.PastLaunch"
+        android:label="plaunch"
+        tools:layout="@layout/fragment_past_launch">
+        <argument
+            android:name="pastLaunchData"
+            app:argType="android.ali.space.database.ModelsLocal.PastLaunches.PastLaunch"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_pastLaunch_to_rocket"
+            app:destination="@id/rocket"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+</navigation>
