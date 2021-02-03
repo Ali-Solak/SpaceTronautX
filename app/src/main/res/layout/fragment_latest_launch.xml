@@ -228,7 +228,6 @@
                                 android:id="@+id/youtube_player_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-
                                 android:layout_marginTop="15dp"
                                 app:autoPlay="false"
                                 app:showFullScreenButton="true"

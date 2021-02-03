@@ -64,7 +64,7 @@ class PastLaunch : Fragment(R.layout.fragment_past_launch) {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 val videoId = pastLaunch?.youtubeId
                 if (videoId != null) {
-                    youTubePlayer.loadVideo(videoId, 0f)
+                    youTubePlayer.cueVideo(videoId, 0f)
                 }
             }
         })
