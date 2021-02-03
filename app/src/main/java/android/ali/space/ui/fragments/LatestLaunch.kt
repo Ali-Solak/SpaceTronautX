@@ -60,6 +60,7 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
             youtube_player_view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
                     val videoId = it.youtubeID
+                    //
                     youTubePlayer.cueVideo(videoId, 0f)
                 }
             })
