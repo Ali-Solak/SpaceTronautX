@@ -22,9 +22,11 @@ class UpcomingLaunches : Fragment(R.layout.fragment_upcoming_launches) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        showProgressBar()
         viewModel = (activity as MainActivity).viewModel
         viewModel.refreshUpcomingLaunches()
         viewModel.getUpcomingLaunchesFromDb()
+        hideProgressBar()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,6 +67,15 @@ class UpcomingLaunches : Fragment(R.layout.fragment_upcoming_launches) {
             layoutManager = LinearLayoutManager(activity)
         }
     }
+
+    private fun hideProgressBar() {
+        progressBar2?.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        progressBar2?.visibility = View.VISIBLE
+    }
+
 
 
 }

@@ -62,7 +62,11 @@
         tools:layout="@layout/fragment_upcoming_launches" >
         <action
             android:id="@+id/action_upcomingLaunches_to_upcomingLaunch2"
-            app:destination="@id/upcomingLaunch" />
+            app:destination="@id/upcomingLaunch"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_upcomingLaunches_to_latestLaunch"
             app:destination="@id/latestLaunch"

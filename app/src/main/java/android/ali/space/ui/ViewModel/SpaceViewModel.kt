@@ -12,6 +12,7 @@ import android.ali.space.repository.SpaceRepository
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,6 +21,7 @@ import java.lang.Exception
 
 class SpaceViewModel(app: Application) :
     AndroidViewModel(app) {
+
 
     init {
         refreshPayloads()
@@ -32,7 +34,7 @@ class SpaceViewModel(app: Application) :
     val db = getDatabase(app)
     val spaceRepo = SpaceRepository(db)
 
-    val latestLaunch = MutableLiveData<LatestLaunch>()
+    val latestLaunchLive = MutableLiveData<LatestLaunch>()
 
     val errorMessage = MutableLiveData<String>()
 
@@ -51,20 +53,28 @@ class SpaceViewModel(app: Application) :
                 var latestLaunch: LatestLaunch
                 val response: Response<LatestLaunchModel> = spaceRepo.getLatestLaunchApi()
 
-                response.body()?.let { resultResponse ->
+                if (response.isSuccessful) {
 
-                    latestLaunch = LatestLaunch(
-                        "1",
-                        resultResponse.date_local,
-                        resultResponse.details,
-                        resultResponse.links.flickr.original,
-                        resultResponse.links.patch.small,
-                        resultResponse.name,
-                        resultResponse.payloads.first(),
-                        resultResponse.rocket,
-                        resultResponse.links.youtube_id,
-                    )
-                    spaceRepo.upsertLatestLaunchDb(latestLaunch)
+                    Log.d("HERETHIS", response.body().toString())
+
+                    response.body()?.let { resultResponse ->
+
+                        latestLaunch = LatestLaunch(
+                            "1",
+                            resultResponse.date_local,
+                            resultResponse.details,
+                            resultResponse.links.flickr.original,
+                            resultResponse.links.patch.small,
+                            resultResponse.name,
+                            resultResponse.payloads.first(),
+                            resultResponse.rocket,
+                            resultResponse.links.youtube_id,
+                        )
+                        latestLaunchLive.postValue(latestLaunch)
+                        spaceRepo.upsertLatestLaunchDb(latestLaunch)
+                    }
+                } else {
+                    Log.d("RefreshLL", "Failed to fetch")
                 }
 
             }
@@ -82,21 +92,27 @@ class SpaceViewModel(app: Application) :
                 val response: Response<android.ali.space.api.modelsRemote.UpcomingLaunch.UpcomingLaunch> =
                     spaceRepo.getUpcomingLaunches()
 
-                response.body()?.let { resultResponse ->
+                Log.d("HERETHIS", response.body().toString())
 
-                    upcomingLaunch = resultResponse.map { it ->
-                        UpcomingLaunch(
-                            it.id,
-                            it.date_local,
-                            it.details,
-                            it.name,
-                            it.links.patch.small,
-                            it.payloads.firstOrNull(),
-                            it.rocket
-                        )
-                    }.toMutableList()
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
 
-                    spaceRepo.upsertUpcomingLaunches(upcomingLaunch)
+                        upcomingLaunch = resultResponse.map { it ->
+                            UpcomingLaunch(
+                                it.id,
+                                it.date_local,
+                                it.details,
+                                it.name,
+                                it.links.patch.small,
+                                it.payloads.firstOrNull(),
+                                it.rocket
+                            )
+                        }.toMutableList()
+
+                        spaceRepo.upsertUpcomingLaunches(upcomingLaunch)
+                    }
+                } else {
+                    Log.d("RefreshUP", "Failed to fetch")
                 }
 
             }
@@ -113,24 +129,30 @@ class SpaceViewModel(app: Application) :
                 var pastLaunches: MutableList<PastLaunch> = mutableListOf<PastLaunch>()
                 val response: Response<PastLaunches> = spaceRepo.getPastLaunches()
 
-                response.body()?.let { resultResponse ->
+                Log.d("HERETHIS", response.body().toString())
 
-                    pastLaunches = resultResponse.map { it ->
-                        PastLaunch(
-                            it.id,
-                            it.date_local,
-                            it.details,
-                            it.links.flickr.original,
-                            it.links.patch.small,
-                            it.name,
-                            it.payloads.first(),
-                            it.rocket,
-                            it.success,
-                            it.links.youtube_id
-                        )
-                    }.toMutableList()
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
 
-                    spaceRepo.upsertPastLaunches(pastLaunches)
+                        pastLaunches = resultResponse.map { it ->
+                            PastLaunch(
+                                it.id,
+                                it.date_local,
+                                it.details,
+                                it.links.flickr.original,
+                                it.links.patch.small,
+                                it.name,
+                                it.payloads.first(),
+                                it.rocket,
+                                it.success,
+                                it.links.youtube_id
+                            )
+                        }.toMutableList()
+
+                        spaceRepo.upsertPastLaunches(pastLaunches)
+                    }
+                } else {
+                    Log.d("RefreshPL", "Failed to fetch")
                 }
             }
         } catch (e: Exception) {
@@ -145,28 +167,34 @@ class SpaceViewModel(app: Application) :
                 val response: Response<android.ali.space.api.modelsRemote.Rocket.Rocket> =
                     spaceRepo.getRocketApi()
 
-                response.body()?.let { resultResponse ->
+                Log.d("HERETHIS", response.body().toString())
 
-                    rockets = resultResponse.map { it ->
-                        Rocket(
-                            it.id,
-                            it.company,
-                            it.cost_per_launch,
-                            it.country,
-                            it.description,
-                            it.first_flight,
-                            it.flickr_images,
-                            it.height.meters,
-                            it.mass.kg,
-                            it.name,
-                            it.stages,
-                            it.landing_legs.number,
-                            it.success_rate_pct,
-                            it.type
-                        )
-                    }.toMutableList()
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
 
-                    spaceRepo.upsertRocket(rockets)
+                        rockets = resultResponse.map { it ->
+                            Rocket(
+                                it.id,
+                                it.company,
+                                it.cost_per_launch,
+                                it.country,
+                                it.description,
+                                it.first_flight,
+                                it.flickr_images,
+                                it.height.meters,
+                                it.mass.kg,
+                                it.name,
+                                it.stages,
+                                it.landing_legs.number,
+                                it.success_rate_pct,
+                                it.type
+                            )
+                        }.toMutableList()
+
+                        spaceRepo.upsertRocket(rockets)
+                    }
+                } else {
+                    Log.d("RefreshRO", "Failed to fetch")
                 }
 
             }
@@ -182,24 +210,29 @@ class SpaceViewModel(app: Application) :
                 val response: Response<android.ali.space.api.modelsRemote.Payload.Payload> =
                     spaceRepo.getPayload()
 
-                response.body()?.let { resultResponse ->
+                Log.d("HERETHIS", response.body().toString())
 
-                    payloads = resultResponse.map { it ->
-                        Payload(
-                            it.id,
-                            it.customers,
-                            it.manufacturers,
-                            it.mass_kg,
-                            it.reused,
-                            it.type,
-                            it.name,
-                            it.nationalities
-                        )
-                    }.toMutableList()
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
 
-                    spaceRepo.UpsertPayload(payloads)
+                        payloads = resultResponse.map { it ->
+                            Payload(
+                                it.id,
+                                it.customers,
+                                it.manufacturers,
+                                it.mass_kg,
+                                it.reused,
+                                it.type,
+                                it.name,
+                                it.nationalities
+                            )
+                        }.toMutableList()
+
+                        spaceRepo.UpsertPayload(payloads)
+                    }
+                } else {
+                    Log.d("RefreshPAY", "Failed to fetch")
                 }
-
             }
         } catch (e: Exception) {
             Log.d("RefreshPAY ", e.message.toString())
@@ -208,7 +241,7 @@ class SpaceViewModel(app: Application) :
 
     fun getLatestLaunchFromDb() = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            latestLaunch.postValue(spaceRepo.getLatestLaunchDb())
+            latestLaunchLive.postValue(spaceRepo.getLatestLaunchDb())
         }
     }
 

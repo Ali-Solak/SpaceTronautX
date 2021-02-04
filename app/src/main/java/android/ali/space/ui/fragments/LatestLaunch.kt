@@ -7,6 +7,7 @@ import android.ali.space.ui.ViewModel.SpaceViewModel
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -26,9 +27,9 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel = (activity as MainActivity).viewModel
         viewModel.refreshlatestLaunch()
-        viewModel.refreshPayloads()
         viewModel.getLatestLaunchFromDb()
 
     }
@@ -37,13 +38,13 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.latestLaunch.observe(viewLifecycleOwner, Observer {
-            latestLaunch_title?.text = it.name
-            loadCard(it.pictures)
-            Glide.with(this).load(it.patch).into(patch)
-            description.text = it.details
-            launchDate.text = "Launch Date: ${it.date_local}"
-            viewModel.getPayloadFromDb(it.payload)
+        viewModel.latestLaunchLive.observe(viewLifecycleOwner, Observer {
+            latestLaunch_title?.text = it?.name
+            it?.pictures?.let { it1 -> loadCard(it1) }
+            Glide.with(this).load(it?.patch).into(patch)
+            description.text = it?.details
+            launchDate.text = "Launch Date: ${it?.date_local}"
+            it?.payload?.let { it1 -> viewModel.getPayloadFromDb(it1) }
 
         })
 
@@ -53,7 +54,7 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
                         "Manufacturers: ${it.manufacturers}, Nationalities: ${it.nationalities}"
         })
 
-        viewModel.latestLaunch.observe(viewLifecycleOwner, Observer {
+        viewModel.latestLaunchLive.observe(viewLifecycleOwner, Observer {
 
             lifecycle.addObserver(youtube_player_view)
 
@@ -67,7 +68,7 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
 
         })
 
-        viewModel.latestLaunch.observe(viewLifecycleOwner, Observer {
+        viewModel.latestLaunchLive.observe(viewLifecycleOwner, Observer {
 
             val rocketNumber = it.rocket
 

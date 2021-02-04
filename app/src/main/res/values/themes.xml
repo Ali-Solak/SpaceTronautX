@@ -3,7 +3,7 @@
     <style name="Theme.Space" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/peach</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimaryVariant">@color/peach</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/poppins</item>
 
-        <item name="colorSurface">#CB201C1C</item>
+        <item name="colorSurface">#1B1818</item>
 
         <item name="colorOnBackground"> @color/peach</item>
         <item name="colorOnSurface"> @color/peach</item>

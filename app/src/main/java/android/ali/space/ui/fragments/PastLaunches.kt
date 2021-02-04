@@ -26,9 +26,11 @@ class PastLaunches : Fragment(R.layout.fragment_past_launches) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        showProgressBar()
         viewModel = (activity as MainActivity).viewModel
         viewModel.refreshPastLaunches()
         viewModel.getPastLaunchesFromDb()
+        hideProgressBar()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,10 +50,8 @@ class PastLaunches : Fragment(R.layout.fragment_past_launches) {
 
         viewModel.pastLaunches.observe(viewLifecycleOwner, Observer {
 
-            it.sortedByDescending { it.date_local.split("-").firstOrNull() }
-
             if(it !=null) {
-                pastLaunchesAdapter.differ.submitList(it)
+                pastLaunchesAdapter.differ.submitList(it.reversed())
             }
             else{
                 Snackbar.make(view, "Internet Access Required", Snackbar.LENGTH_SHORT).show()
@@ -68,6 +68,15 @@ class PastLaunches : Fragment(R.layout.fragment_past_launches) {
             adapter = pastLaunchesAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+
+    private fun hideProgressBar() {
+        progressBar?.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        progressBar?.visibility = View.VISIBLE
     }
 
 

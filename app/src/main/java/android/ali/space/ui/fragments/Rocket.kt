@@ -30,6 +30,7 @@ class Rocket : Fragment(R.layout.fragment_rocket) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getRocketFromDb(args.rocketNumber)
 
 
         viewModel.rocket.observe(viewLifecycleOwner, Observer {

@@ -14,67 +14,65 @@ import retrofit2.Response
 class SpaceRepository(val db: SpaceDatabase) {
 
 
-    suspend fun getLatestLaunchApi() : Response<LatestLaunchModel>{
+    suspend fun getLatestLaunchApi(): Response<LatestLaunchModel> {
         return RetrofitInstance.api.getLatestLaunch()
     }
 
-    suspend fun getRocketApi(): Response<Rocket>{
+    suspend fun getRocketApi(): Response<Rocket> {
         return RetrofitInstance.api.getRocket()
     }
-    suspend fun getPayload(): Response<Payload>{
+
+    suspend fun getPayload(): Response<Payload> {
         return RetrofitInstance.api.getPayload()
     }
 
-    suspend fun getPastLaunches(): Response<PastLaunches>{
+    suspend fun getPastLaunches(): Response<PastLaunches> {
         return RetrofitInstance.api.getPastLaunches()
     }
 
-    suspend fun getUpcomingLaunches(): Response<UpcomingLaunch>{
+    suspend fun getUpcomingLaunches(): Response<UpcomingLaunch> {
         return RetrofitInstance.api.getUpcomingLaunch()
     }
 
-    suspend fun getLatestLaunchDb() : LatestLaunch{
+    fun getLatestLaunchDb(): LatestLaunch {
         return db.getArticleDao().getLatestLaunch()
     }
 
-    suspend fun upsertLatestLaunchDb(latestLaunch: LatestLaunch){
+    fun upsertLatestLaunchDb(latestLaunch: LatestLaunch) {
         return db.getArticleDao().insertLatestLaunch(latestLaunch)
     }
 
-    suspend fun getRocketDb(id: String): android.ali.space.database.ModelsLocal.Rocket.Rocket{
+    fun getRocketDb(id: String): android.ali.space.database.ModelsLocal.Rocket.Rocket {
         return db.getArticleDao().getRocket(id)
     }
 
-    suspend fun upsertRocket(rocket: List<android.ali.space.database.ModelsLocal.Rocket.Rocket>){
+    fun upsertRocket(rocket: List<android.ali.space.database.ModelsLocal.Rocket.Rocket>) {
         return db.getArticleDao().insertRocket(rocket)
     }
 
-    suspend fun getPayloadDb(id: String): android.ali.space.database.ModelsLocal.Payload.Payload{
+    fun getPayloadDb(id: String): android.ali.space.database.ModelsLocal.Payload.Payload {
         return db.getArticleDao().getPayload(id)
     }
 
-    suspend fun UpsertPayload(payload: List<android.ali.space.database.ModelsLocal.Payload.Payload>){
+    fun UpsertPayload(payload: List<android.ali.space.database.ModelsLocal.Payload.Payload>) {
         return db.getArticleDao().insertPayload(payload)
     }
 
-    suspend fun getPastLaunchesDb() : List<PastLaunch>{
+    fun getPastLaunchesDb(): List<PastLaunch> {
         return db.getArticleDao().getPastLaunches()
     }
 
-    suspend fun upsertPastLaunches(pastLaunch: List<PastLaunch>){
+    fun upsertPastLaunches(pastLaunch: List<PastLaunch>) {
         return db.getArticleDao().insertAllPastLaunches(pastLaunch)
     }
 
-    suspend fun getUpcomingLaunchesDb() : List<android.ali.space.database.ModelsLocal.UpcomingLaunches.UpcomingLaunch>{
+    fun getUpcomingLaunchesDb(): List<android.ali.space.database.ModelsLocal.UpcomingLaunches.UpcomingLaunch> {
         return db.getArticleDao().getUpcomingLaunches()
     }
 
-    suspend fun upsertUpcomingLaunches(upcomingLaunch: List<android.ali.space.database.ModelsLocal.UpcomingLaunches.UpcomingLaunch>){
+    fun upsertUpcomingLaunches(upcomingLaunch: List<android.ali.space.database.ModelsLocal.UpcomingLaunches.UpcomingLaunch>) {
         return db.getArticleDao().insertAllUpcomingLaunches(upcomingLaunch)
     }
-
-
-
 
 
 }
