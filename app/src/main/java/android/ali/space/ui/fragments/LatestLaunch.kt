@@ -50,8 +50,8 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
 
         viewModel.payload.observe(viewLifecycleOwner, Observer {
             payloadDetails.text =
-                "Type: ${it.type}, Customer: ${it.customers}, Weight: ${it.mass_kg} " +
-                        "Manufacturers: ${it.manufacturers}, Nationalities: ${it.nationalities}"
+                "Type: ${it?.type}, Customer: ${it?.customers}, Weight: ${it?.mass_kg} " +
+                        "Manufacturers: ${it?.manufacturers}, Nationalities: ${it?.nationalities}"
         })
 
         viewModel.latestLaunchLive.observe(viewLifecycleOwner, Observer {
@@ -60,9 +60,11 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
 
             youtube_player_view.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
-                    val videoId = it.youtubeID
+                    val videoId = it?.youtubeID
                     //
-                    youTubePlayer.cueVideo(videoId, 0f)
+                    if (videoId != null) {
+                        youTubePlayer.cueVideo(videoId, 0f)
+                    }
                 }
             })
 
@@ -70,7 +72,7 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
 
         viewModel.latestLaunchLive.observe(viewLifecycleOwner, Observer {
 
-            val rocketNumber = it.rocket
+            val rocketNumber = it?.rocket
 
             rocketInfoButton.setOnClickListener {
                 val bundle = Bundle().apply {
