@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_Space)
         setContentView(R.layout.activity_main)
 
         val viewModelProviderFactory = SpaceViewModelFactory(application)
