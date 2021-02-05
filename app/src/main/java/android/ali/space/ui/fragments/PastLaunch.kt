@@ -85,8 +85,8 @@ class PastLaunch : Fragment(R.layout.fragment_past_launch) {
 
         viewModel.payload.observe(viewLifecycleOwner, Observer {
             payloadDetails.text =
-                "Type: ${it.type}, Customer: ${it.customers}, Weight: ${it.mass_kg} " +
-                        "Manufacturers: ${it.manufacturers}, Nationalities: ${it.nationalities}"
+                "Type: ${it?.type}, Customer: ${it?.customers}, Weight: ${it?.mass_kg} " +
+                        "Manufacturers: ${it?.manufacturers}, Nationalities: ${it?.nationalities}"
         })
 
     }
