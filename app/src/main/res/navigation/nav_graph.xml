@@ -10,8 +10,8 @@
     <fragment
         android:id="@+id/latestLaunch"
         android:name="android.ali.space.ui.fragments.LatestLaunch"
-        android:label="fragment_latest_launch"
-        tools:layout="@layout/fragment_latest_launch" >
+        android:label="Latest Launch"
+        tools:layout="@layout/fragment_latest_launch">
         <action
             android:id="@+id/action_latestLaunch_to_rocket"
             app:destination="@id/rocket"
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/rocket"
         android:name="android.ali.space.ui.fragments.Rocket"
-        android:label="RocketFragment">
+        android:label="Rocket Info">
         <argument
             android:name="rocketNumber"
             app:argType="string" />
@@ -38,8 +38,8 @@
     <fragment
         android:id="@+id/pastLaunches"
         android:name="android.ali.space.ui.fragments.PastLaunches"
-        android:label="fragment_past_launches"
-        tools:layout="@layout/fragment_past_launches" >
+        android:label="Past Launches"
+        tools:layout="@layout/fragment_past_launches">
         <action
             android:id="@+id/action_pastLaunches_to_latestLaunch"
             app:destination="@id/latestLaunch"
@@ -58,8 +58,8 @@
     <fragment
         android:id="@+id/upcomingLaunches"
         android:name="android.ali.space.ui.fragments.UpcomingLaunches"
-        android:label="fragment_upcoming_launches"
-        tools:layout="@layout/fragment_upcoming_launches" >
+        android:label="Upcoming Launches"
+        tools:layout="@layout/fragment_upcoming_launches">
         <action
             android:id="@+id/action_upcomingLaunches_to_upcomingLaunch2"
             app:destination="@id/upcomingLaunch"
@@ -78,12 +78,12 @@
     <fragment
         android:id="@+id/upcomingLaunch"
         android:name="android.ali.space.ui.fragments.UpcomingLaunch"
-        android:label="UpcomingLaunch" >
+        android:label="Upcoming Launch">
         <argument
             android:name="upcomingLaunchData"
+            android:defaultValue="@null"
             app:argType="android.ali.space.database.ModelsLocal.UpcomingLaunches.UpcomingLaunch"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/action_upcomingLaunch_to_rocket"
             app:destination="@id/rocket"
@@ -95,7 +95,7 @@
     <fragment
         android:id="@+id/plaunch"
         android:name="android.ali.space.ui.fragments.PastLaunch"
-        android:label="plaunch"
+        android:label="Past Launch"
         tools:layout="@layout/fragment_past_launch">
         <argument
             android:name="pastLaunchData"

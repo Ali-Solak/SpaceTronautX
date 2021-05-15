@@ -50,8 +50,8 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
 
         viewModel.payload.observe(viewLifecycleOwner, Observer {
             payloadDetails.text =
-                "Type: ${it?.type}, Customer: ${it?.customers}, Weight: ${it?.mass_kg} " +
-                        "Manufacturers: ${it?.manufacturers}, Nationalities: ${it?.nationalities}"
+                "Type: ${it?.type}, Customer: ${it?.customers?.joinToString(", ")}, Weight: ${it?.mass_kg} " +
+                        "Manufacturers: ${it?.manufacturers?.joinToString(", ")}, Nationalities: ${it?.nationalities?.joinToString(", ")}"
         })
 
         viewModel.latestLaunchLive.observe(viewLifecycleOwner, Observer {
@@ -90,6 +90,7 @@ class LatestLaunch : Fragment(R.layout.fragment_latest_launch) {
                 Snackbar.make(view, it, Snackbar.LENGTH_LONG).show()
             }
         })
+
     }
 
     private fun loadCard(images: List<String>) {

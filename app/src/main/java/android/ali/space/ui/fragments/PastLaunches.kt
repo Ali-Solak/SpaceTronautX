@@ -16,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_past_launches.*
+import kotlinx.android.synthetic.main.fragment_past_launches.swipeToRefreshLayout
+import kotlinx.android.synthetic.main.fragment_upcoming_launches.*
 
 
 class PastLaunches : Fragment(R.layout.fragment_past_launches) {
@@ -58,7 +60,13 @@ class PastLaunches : Fragment(R.layout.fragment_past_launches) {
             }
         })
 
-
+        swipeToRefreshLayout.setOnRefreshListener {
+            swipeToRefreshLayout.isRefreshing = true
+            viewModel.refreshPastLaunches()
+            viewModel.getPastLaunchesFromDb()
+            swipeToRefreshLayout.isRefreshing = false
+            rvPastLaunchesView.scrollToPosition(0)
+        }
 
     }
 

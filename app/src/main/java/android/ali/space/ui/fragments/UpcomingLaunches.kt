@@ -7,6 +7,8 @@ import android.ali.space.R
 import android.ali.space.adapters.UPLRecyclerViewAdapter
 import android.ali.space.ui.MainActivity
 import android.ali.space.ui.ViewModel.SpaceViewModel
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +31,7 @@ class UpcomingLaunches : Fragment(R.layout.fragment_upcoming_launches) {
         hideProgressBar()
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,15 +49,21 @@ class UpcomingLaunches : Fragment(R.layout.fragment_upcoming_launches) {
 
         viewModel.upcomingLaunches.observe(viewLifecycleOwner, Observer {
 
-            it.sortedByDescending { it.date_local.split("-").firstOrNull() }
-
-            if(it !=null) {
+            if(it != null) {
                 upcomingLaunchesAdapter.differ.submitList(it)
             }
             else{
                 Snackbar.make(view, "Internet Access Required", Snackbar.LENGTH_SHORT).show()
             }
         })
+
+        swipeToRefreshLayout.setOnRefreshListener {
+            swipeToRefreshLayout.isRefreshing = true
+            viewModel.refreshUpcomingLaunches()
+            viewModel.getUpcomingLaunchesFromDb()
+            swipeToRefreshLayout.isRefreshing = false
+            rvUpcomingLaunches.scrollToPosition(0)
+        }
 
 
 

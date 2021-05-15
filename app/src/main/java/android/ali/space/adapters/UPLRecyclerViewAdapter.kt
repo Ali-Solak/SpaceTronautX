@@ -2,18 +2,24 @@ package android.ali.space.adapters
 
 import android.ali.space.R
 import android.ali.space.database.ModelsLocal.UpcomingLaunches.UpcomingLaunch
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import kotlinx.android.synthetic.main.fragment_upcoming_launches.view.*
 import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
-class UPLRecyclerViewAdapter : RecyclerView.Adapter<UPLRecyclerViewAdapter.UpcomingLaunchesViewHolder>() {
 
-    inner class UpcomingLaunchesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+class UPLRecyclerViewAdapter :
+    RecyclerView.Adapter<UPLRecyclerViewAdapter.UpcomingLaunchesViewHolder>() {
+
+    inner class UpcomingLaunchesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private val differCallback = object : DiffUtil.ItemCallback<UpcomingLaunch>() {
         override fun areItemsTheSame(oldItem: UpcomingLaunch, newItem: UpcomingLaunch): Boolean {
@@ -48,8 +54,12 @@ class UPLRecyclerViewAdapter : RecyclerView.Adapter<UPLRecyclerViewAdapter.Upcom
         val pastLaunch = differ.currentList[position]
 
         holder.itemView.apply {
-            if(pastLaunch.patch != null) {
-                Glide.with(this).load(pastLaunch.patch).into(ivArticleImage)
+            if (pastLaunch.patch != null) {
+
+                Glide.with(this).load(pastLaunch?.patch)
+                    .apply(RequestOptions.placeholderOf(R.drawable.progress_indi)).into(ivArticleImage)
+            } else {
+                ivArticleImage.setImageResource(R.drawable.logo)
             }
 
             title.text = pastLaunch.name

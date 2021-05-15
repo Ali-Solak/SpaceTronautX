@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
 class PLRecyclerViewAdapter : RecyclerView.Adapter<PLRecyclerViewAdapter.PastLaunchesViewHolder>() {
 
-    inner class PastLaunchesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    inner class PastLaunchesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private val differCallback = object : DiffUtil.ItemCallback<PastLaunch>() {
         override fun areItemsTheSame(oldItem: PastLaunch, newItem: PastLaunch): Boolean {
@@ -48,7 +49,8 @@ class PLRecyclerViewAdapter : RecyclerView.Adapter<PLRecyclerViewAdapter.PastLau
         val pastLaunch = differ.currentList[position]
 
         holder.itemView.apply {
-            Glide.with(this).load(pastLaunch?.patch).into(ivArticleImage)
+            Glide.with(this).load(pastLaunch?.patch)
+                .apply(RequestOptions.placeholderOf(R.drawable.progress_indi)).into(ivArticleImage)
             title.text = pastLaunch.name
             description.text = pastLaunch.date_local
 
